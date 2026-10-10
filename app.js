@@ -27,6 +27,24 @@ const studentSchema = new mongoose.Schema(
 
 const Student = mongoose.model("students", studentSchema);
 
+// Teacher Schema
+const teacherSchema = new mongoose.Schema(
+    {
+        name: { type: String, required: true },
+        age: { type: Number, required: true },
+        email: { type: String, required: true, unique: true },
+        phone: { type: String, required: true },
+        subject: { type: String, required: true },
+        address: { type: String, required: true },
+    },
+    {
+        timestamps: true,
+        versionKey: false,
+    },
+);
+
+const Teacher = mongoose.model("teachers", teacherSchema);
+
 // Get All Students
 app.get("/api/v1/students", async (req, res) => {
     try {
@@ -127,6 +145,32 @@ app.delete("/api/v1/students/:id", async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Error deleting student",
+            error: error.message,
+        });
+    }
+});
+
+// Create New Teacher
+app.post("/api/v1/teachers", async (req, res) => {
+    try {
+        const newTeacher = await Teacher.create(req.body);
+        // Check if the teacher was created successfully
+        if (!newTeacher) {
+            return res.status(400).json({
+                success: false,
+                message: "Error creating teacher",
+            });
+        }
+
+        res.status(201).json({
+            success: true,
+            message: "Teacher created successfully",
+            teacher: newTeacher,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error creating teacher",
             error: error.message,
         });
     }
