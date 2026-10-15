@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import Student from "./modules/sutdent/student.model.js";
+import { StudentRouter } from "./modules/sutdent/student.route.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,6 +25,8 @@ const teacherSchema = new mongoose.Schema(
 );
 
 const Teacher = mongoose.model("teachers", teacherSchema);
+
+app.use("/api/v1/students", StudentRouter);
 
 // Get All Students
 app.get("/api/v1/students", async (req, res) => {
@@ -68,37 +71,6 @@ app.get("/api/v1/students/:id", async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Error retrieving student",
-            error: error.message,
-        });
-    }
-});
-
-// Create New Student
-app.post("/api/v1/students", async (req, res) => {
-    try {
-        // Log the request body for debugging
-        const newStudent = await Student.create(req.body);
-        // console.log("New student created:", newStudent);
-
-        // Check if the student was created successfully
-        if (!newStudent) {
-            return res.status(400).json({
-                success: false,
-                message: "Error creating student",
-            });
-        }
-
-        // Respond with the created student data
-        res.status(201).json({
-            success: true,
-            message: "Student created successfully",
-            student: newStudent,
-        });
-    } catch (error) {
-        // Handle any errors that occur during the creation process
-        res.status(500).json({
-            success: false,
-            message: "Error creating student",
             error: error.message,
         });
     }
