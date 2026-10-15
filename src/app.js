@@ -1,31 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import Student from "./modules/sutdent/student.model.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-
-// Student Schema
-const studentSchema = new mongoose.Schema(
-    {
-        name: { type: String, required: true },
-        age: { type: Number, required: true },
-        email: { type: String, required: true, unique: true },
-        fatherName: { type: String, required: true },
-        motherName: { type: String, required: true },
-        fatherPhone: { type: String, required: true },
-        motherPhone: { type: String, required: true },
-        presentAddress: { type: String, required: true },
-        permanentAddress: { type: String, required: true },
-    },
-    {
-        timestamps: true,
-        versionKey: false,
-    },
-);
-
-const Student = mongoose.model("students", studentSchema);
 
 // Teacher Schema
 const teacherSchema = new mongoose.Schema(
@@ -96,7 +76,7 @@ app.get("/api/v1/students/:id", async (req, res) => {
 // Create New Student
 app.post("/api/v1/students", async (req, res) => {
     try {
-        console.log("Request body:", req.body); // Log the request body for debugging
+        // Log the request body for debugging
         const newStudent = await Student.create(req.body);
         // console.log("New student created:", newStudent);
 
@@ -184,19 +164,4 @@ app.get("/", (req, res) => {
     });
 });
 
-const main = async () => {
-    try {
-        // Database connection
-        await mongoose.connect("mongodb://127.0.0.1:27017/mongooseexpress");
-        console.log("Connected to MongoDB");
-
-        // Start the server
-        app.listen(PORT, () => {
-            console.log(`Example app listening on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-    }
-};
-
-main();
+export default app;
