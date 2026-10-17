@@ -3,7 +3,7 @@ import { StudentController } from "./student.controller.js";
 
 const router = Router();
 
-// Create New Student
+router.get("/", StudentController.getAllStudents);
 router.post("/", StudentController.createStudent);
 
 export const StudentRouter = router;

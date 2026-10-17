@@ -28,28 +28,6 @@ const Teacher = mongoose.model("teachers", teacherSchema);
 
 app.use("/api/v1/students", StudentRouter);
 
-// Get All Students
-app.get("/api/v1/students", async (req, res) => {
-    try {
-        const students = await Student.find().sort({ createdAt: -1 });
-        const totalStudents = await Student.countDocuments();
-        // Get all students
-        res.status(200).json({
-            success: true,
-            message: "Students retrieved successfully",
-            totalStudents,
-            students,
-        });
-    } catch (error) {
-        // Handle any errors that occur during the retrieval process
-        res.status(500).json({
-            success: false,
-            message: "Error retrieving students",
-            error: error.message,
-        });
-    }
-});
-
 // Get Student by ID
 app.get("/api/v1/students/:id", async (req, res) => {
     try {

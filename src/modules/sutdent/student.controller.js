@@ -29,6 +29,28 @@ const createStudent = async (req, res) => {
     }
 };
 
+const getAllStudents = async (req, res) => {
+    try {
+        const { students, totalStudents } =
+            await StudentService.getAllStudentsFromDB();
+        // Get all students
+        res.status(200).json({
+            success: true,
+            message: "Students retrieved successfully",
+            totalStudents,
+            students,
+        });
+    } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        res.status(500).json({
+            success: false,
+            message: "Error retrieving students",
+            error: error.message,
+        });
+    }
+};
+
 export const StudentController = {
     createStudent,
+    getAllStudents,
 };
