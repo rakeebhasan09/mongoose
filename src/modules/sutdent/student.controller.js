@@ -1,3 +1,4 @@
+import Student from "./student.model.js";
 import { StudentService } from "./student.service.js";
 
 const createStudent = async (req, res) => {
@@ -50,7 +51,36 @@ const getAllStudents = async (req, res) => {
     }
 };
 
+const getStudentById = async (req, res) => {
+    try {
+        const student = await StudentService.getStudentByIdFromDB(
+            req.params.id,
+        );
+
+        if (!student) {
+            return res.status(404).json({
+                success: false,
+                message: "Student not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Student retrieved successfully",
+            student,
+        });
+    } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        res.status(500).json({
+            success: false,
+            message: "Error retrieving student",
+            error: error.message,
+        });
+    }
+};
+
 export const StudentController = {
     createStudent,
     getAllStudents,
+    getStudentById,
 };

@@ -28,32 +28,6 @@ const Teacher = mongoose.model("teachers", teacherSchema);
 
 app.use("/api/v1/students", StudentRouter);
 
-// Get Student by ID
-app.get("/api/v1/students/:id", async (req, res) => {
-    try {
-        const student = await Student.findById(req.params.id);
-        if (!student) {
-            return res.status(404).json({
-                success: false,
-                message: "Student not found",
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Student retrieved successfully",
-            student,
-        });
-    } catch (error) {
-        // Handle any errors that occur during the retrieval process
-        res.status(500).json({
-            success: false,
-            message: "Error retrieving student",
-            error: error.message,
-        });
-    }
-});
-
 // Delete Student by ID
 app.delete("/api/v1/students/:id", async (req, res) => {
     try {
