@@ -1,6 +1,7 @@
 import Student from "./student.model.js";
 import { StudentService } from "./student.service.js";
 
+// Create a new student
 const createStudent = async (req, res) => {
     try {
         // Log the request body for debugging
@@ -30,6 +31,7 @@ const createStudent = async (req, res) => {
     }
 };
 
+// Get all students
 const getAllStudents = async (req, res) => {
     try {
         const { students, totalStudents } =
@@ -51,6 +53,7 @@ const getAllStudents = async (req, res) => {
     }
 };
 
+// Get a student by ID
 const getStudentById = async (req, res) => {
     try {
         const student = await StudentService.getStudentByIdFromDB(
@@ -79,8 +82,37 @@ const getStudentById = async (req, res) => {
     }
 };
 
+// Delete a student by ID
+const deleteStudentById = async (req, res) => {
+    try {
+        const deletedStudent = await StudentService.deleteStudentByIdFromDB(
+            req.params.id,
+        );
+
+        if (!deletedStudent) {
+            return res.status(404).json({
+                success: false,
+                message: "Student not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Student deleted successfully",
+            student: deletedStudent,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error deleting student",
+            error: error.message,
+        });
+    }
+};
+
 export const StudentController = {
     createStudent,
     getAllStudents,
     getStudentById,
+    deleteStudentById,
 };

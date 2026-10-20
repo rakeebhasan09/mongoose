@@ -28,32 +28,6 @@ const Teacher = mongoose.model("teachers", teacherSchema);
 
 app.use("/api/v1/students", StudentRouter);
 
-// Delete Student by ID
-app.delete("/api/v1/students/:id", async (req, res) => {
-    try {
-        const deletedStudent = await Student.findByIdAndDelete(req.params.id);
-
-        if (!deletedStudent) {
-            return res.status(404).json({
-                success: false,
-                message: "Student not found",
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Student deleted successfully",
-            student: deletedStudent,
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Error deleting student",
-            error: error.message,
-        });
-    }
-});
-
 // Create New Teacher
 app.post("/api/v1/teachers", async (req, res) => {
     try {
