@@ -1,4 +1,3 @@
-import Student from "./student.model.js";
 import { StudentService } from "./student.service.js";
 
 // Create a new student
