@@ -26,6 +26,28 @@ const createTeacher = async (req, res) => {
     }
 };
 
+// Get all teachers
+const getAllTeachers = async (req, res) => {
+    try {
+        const { teachers, totalTeachers } =
+            await TeacherService.getAllTeachersFromDB();
+
+        res.status(200).json({
+            success: true,
+            message: "Teachers retrieved successfully",
+            totalTeachers,
+            teachers,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error retrieving teachers",
+            error: error.message,
+        });
+    }
+};
+
 export const TeacherController = {
     createTeacher,
+    getAllTeachers,
 };
