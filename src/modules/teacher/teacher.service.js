@@ -11,7 +11,13 @@ const getAllTeachersFromDB = async () => {
     return { teachers, totalTeachers };
 };
 
+const getTeacherByIdFromDB = async (id) => {
+    const teacher = await Teacher.findById(id);
+    return teacher;
+};
+
 export const TeacherService = {
     createTeacherInToDB,
     getAllTeachersFromDB,
+    getTeacherByIdFromDB,
 };

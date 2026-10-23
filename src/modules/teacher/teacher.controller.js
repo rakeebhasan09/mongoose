@@ -47,7 +47,34 @@ const getAllTeachers = async (req, res) => {
     }
 };
 
+const getTeacherById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const teacher = await TeacherService.getTeacherByIdFromDB(id);
+
+        if (!teacher) {
+            return res.status(404).json({
+                success: false,
+                message: "Teacher not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Teacher retrieved successfully",
+            teacher,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error retrieving teacher",
+            error: error.message,
+        });
+    }
+};
+
 export const TeacherController = {
     createTeacher,
     getAllTeachers,
+    getTeacherById,
 };
