@@ -12,4 +12,7 @@ router.get("/:id", TeacherController.getTeacherById);
 // Create New Teacher
 router.post("/", TeacherController.createTeacher);
 
+// Delete Teacher By ID
+router.delete("/:id", TeacherController.deleteTeacherById);
+
 export const TeacherRouter = router;

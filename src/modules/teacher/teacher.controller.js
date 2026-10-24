@@ -47,6 +47,7 @@ const getAllTeachers = async (req, res) => {
     }
 };
 
+// Get teacher by ID
 const getTeacherById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -73,8 +74,36 @@ const getTeacherById = async (req, res) => {
     }
 };
 
+// Delete teacher by ID
+const deleteTeacherById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedTeacher = await TeacherService.deleteTeacherByIdFromDB(id);
+
+        if (!deletedTeacher) {
+            return res.status(404).json({
+                success: false,
+                message: "Teacher not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Teacher deleted successfully",
+            teacher: deletedTeacher,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error deleting teacher",
+            error: error.message,
+        });
+    }
+};
+
 export const TeacherController = {
     createTeacher,
     getAllTeachers,
     getTeacherById,
+    deleteTeacherById,
 };
