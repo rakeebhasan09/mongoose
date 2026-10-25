@@ -81,6 +81,34 @@ const getStudentById = async (req, res) => {
     }
 };
 
+// Update a student by ID
+const updateStudentById = async (req, res) => {
+    try {
+        const updatedStudent = await StudentService.updateStudentByIdFromDB(
+            req.params.id,
+            req.body,
+        );
+
+        if (!updatedStudent) {
+            return res.status(404).json({
+                success: false,
+                message: "Student not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Student updated successfully",
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error updating student",
+            error: error.message,
+        });
+    }
+};
+
 // Delete a student by ID
 const deleteStudentById = async (req, res) => {
     try {
@@ -113,5 +141,6 @@ export const StudentController = {
     createStudent,
     getAllStudents,
     getStudentById,
+    updateStudentById,
     deleteStudentById,
 };

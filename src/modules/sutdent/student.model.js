@@ -12,6 +12,8 @@ const studentSchema = new mongoose.Schema(
         motherPhone: { type: String, required: true },
         presentAddress: { type: String, required: true },
         permanentAddress: { type: String, required: true },
+        class: { type: String, required: true },
+        admissionRoll: { type: String, required: true, unique: true },
     },
     {
         timestamps: true,
